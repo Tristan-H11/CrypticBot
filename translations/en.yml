@@ -11,12 +11,9 @@ prefix_updated: Prefix has been updated.
 log_prefix_updated: Bot prefix has been changed to `{}`
 
 # info
-bot_description: Python Discord Bot Template
+bot_description: Bot for the Cryptic Discord Server
 features:
-  - Foo
-  - Bar
 admin_features:
-  - Baz
 features_title: Features
 author_title: Author
 contributors_title: Contributors

@@ -116,17 +116,18 @@ async def change_prefix(ctx: Context, new_prefix: str):
 
 
 async def build_info_embed(authorized: bool) -> Embed:
-    embed = Embed(title="DiscordBot", color=0x007700, description=translations.bot_description)
+    embed = Embed(title="Cryptic Bot", color=0x007700, description=translations.bot_description)
     embed.set_thumbnail(url=bot.user.avatar_url)
     prefix = await get_prefix()
-    features = translations.features
+    features = translations.features or []
     if authorized:
-        features += translations.admin_features
-    embed.add_field(
-        name=translations.features_title,
-        value="\n".join(f":small_orange_diamond: {feature}" for feature in features),
-        inline=False,
-    )
+        features += translations.admin_features or []
+    if features:
+        embed.add_field(
+            name=translations.features_title,
+            value="\n".join(f":small_orange_diamond: {feature}" for feature in features),
+            inline=False,
+        )
     embed.add_field(name=translations.author_title, value="<@370876111992913922>", inline=True)
     if CONTRIBUTORS:
         embed.add_field(
@@ -185,7 +186,7 @@ async def version(ctx: Context):
     show version
     """
 
-    await ctx.send(f"DiscordBot v{VERSION}")
+    await ctx.send(f"CrypticBot v{VERSION}")
 
 
 @bot.event
