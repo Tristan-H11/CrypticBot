@@ -1,9 +1,9 @@
 version: '3.7'
 services:
-  discordbot:
-    container_name: discordbot
-    image: user/discordbot
-    # image: user/discordbot:experimental
+  crypticbot:
+    container_name: crypticbot
+    image: defelo/crypticbot
+    # image: defelo/crypticbot:experimental
     restart: always
     tty: true
     depends_on:
@@ -12,9 +12,9 @@ services:
       TOKEN: '<TOKEN>'
       DB_HOST: 'db'
       DB_PORT: 3306
-      DB_DATABASE: 'discordbot'
-      DB_USER: 'discordbot'
-      DB_PASSWORD: 'discordbot'
+      DB_DATABASE: 'crypticbot'
+      DB_USER: 'crypticbot'
+      DB_PASSWORD: 'crypticbot'
       SENTRY_DSN: ''
       OWNER_ID: ''
 
@@ -24,9 +24,9 @@ services:
     # image: jsurf/rpi-mariadb
     restart: always
     environment:
-      MYSQL_USER: 'discordbot'
-      MYSQL_PASSWORD: 'discordbot'
-      MYSQL_DATABASE: 'discordbot'
+      MYSQL_USER: 'crypticbot'
+      MYSQL_PASSWORD: 'crypticbot'
+      MYSQL_DATABASE: 'crypticbot'
       MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
       # MYSQL_INITDB_SKIP_TZINFO: 'yes'
     volumes:
