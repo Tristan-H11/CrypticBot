@@ -16,6 +16,7 @@ from discord.ext.commands import Bot, Context, guild_only, CommandError, Command
 from sentry_sdk.integrations.aiohttp import AioHttpIntegration
 from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 
+from cogs.autorole import AutoRoleCog
 from cogs.permissions import PermissionsCog
 from cogs.reactionrole import ReactionRoleCog
 from info import VERSION, GITHUB_LINK, CONTRIBUTORS
@@ -218,5 +219,5 @@ async def on_bot_ping(message: Message):
     await message.channel.send(embed=await build_info_embed(False))
 
 
-register_cogs(bot, PermissionsCog, ReactionRoleCog)
+register_cogs(bot, PermissionsCog, ReactionRoleCog, AutoRoleCog)
 bot.run(os.environ["TOKEN"])

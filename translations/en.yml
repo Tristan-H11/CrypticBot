@@ -80,6 +80,8 @@ permissions:
 
   manage_rr: manage reactionrole
 
+  manage_ar: manage autorole
+
 # reactionrole
 no_reactionrole_links: No ReactionRole links have been created yet.
 no_reactionrole_links_for_msg: No ReactionRole links have been created yet for this message.
@@ -94,3 +96,10 @@ log_rr_link_removed: ReactionRole link for {} has been deleted on {}
 rr_link: "{} -> `@{}`"
 rr_link_reverse: "{} -> `@{}` (reverse)"
 
+# autorole
+autorole: AutoRole
+no_autorole: No roles have been configured yet.
+ar_already_set: Role already set.
+ar_added: AutoRole has been added successfully.
+ar_not_set: Role not set.
+ar_removed: AutoRole has been removed successfully.

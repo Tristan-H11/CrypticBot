@@ -16,6 +16,8 @@ class Permission(BasePermission):
 
     manage_rr = auto()
 
+    manage_ar = auto()
+
     @property
     def default_permission_level(self) -> "BasePermissionLevel":
         return PermissionLevel.ADMINISTRATOR
