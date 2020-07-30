@@ -17,6 +17,7 @@ from sentry_sdk.integrations.aiohttp import AioHttpIntegration
 from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 
 from cogs.autorole import AutoRoleCog
+from cogs.inactivity import InactivityCog
 from cogs.permissions import PermissionsCog
 from cogs.reactionrole import ReactionRoleCog
 from cogs.rules import RulesCog
@@ -220,5 +221,5 @@ async def on_bot_ping(message: Message):
     await message.channel.send(embed=await build_info_embed(False))
 
 
-register_cogs(bot, PermissionsCog, ReactionRoleCog, AutoRoleCog, RulesCog)
+register_cogs(bot, PermissionsCog, ReactionRoleCog, AutoRoleCog, RulesCog, InactivityCog)
 bot.run(os.environ["TOKEN"])

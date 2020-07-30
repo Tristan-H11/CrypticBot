@@ -59,6 +59,7 @@ role_names:
   correction: Correction
   text: Text
   translator: Translator
+  notification: Notification
 role_not_set_too_high: Role could not be set because `@{}` is higher than `@{}`.
 role_not_set_managed_role: Role could not be set because `@{}` cannot be assigned manually.
 
@@ -88,6 +89,11 @@ permissions:
   send: send a message as the bot
   edit: edit messages sent by the bot
   delete: delete a message
+
+  scan_messages: scan channels for latest message of each user
+  view_user: view information about a user
+  view_inactive_users: list all inactive users
+  set_inactive_duration: configure inactivity duration
 
 # reactionrole
 no_reactionrole_links: No ReactionRole links have been created yet.
@@ -129,3 +135,24 @@ could_not_delete: Message could not be deleted because I don't have `manage_mess
 msg_deleted: Message has been deleted successfully.
 title_too_long: Title is too long.
 cannot_edit_files: Files cannot be edited.
+
+# inactivity
+invalid_duration: Invalid duration.
+scanning: "Scanning..."
+scanning_channel: "Scanning {} ({} / {})..."
+scan_complete: "Scanned {} channels."
+updating_members: "Updating members..."
+updated_members: "Updated {} members."
+user_info: User Info
+status: Status
+status_bot: ":robot: Bot"
+status_watcher: ":negative_squared_cross_mark: Watcher"
+status_active: ":white_check_mark: Active ({} days ago)"
+status_inactive: ":warning: Inactive"
+status_inactive_since: ":warning: Inactive since {}"
+inactive_users: Inactive Users
+no_inactive_users: "No inactive users :white_check_mark:"
+user_inactive: ":small_orange_diamond: {}"
+user_inactive_since: ":small_orange_diamond: {} (since {})"
+inactive_duration: Users that have not sent a message for {} days are marked as inactive.
+inactive_duration_set: Inactivity duration has been set to {} days.

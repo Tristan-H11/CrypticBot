@@ -22,6 +22,11 @@ class Permission(BasePermission):
     edit = auto()
     delete = auto()
 
+    scan_messages = auto()
+    view_user = auto()
+    view_inactive_users = auto()
+    set_inactive_duration = auto()
+
     @property
     def default_permission_level(self) -> "BasePermissionLevel":
         return PermissionLevel.ADMINISTRATOR

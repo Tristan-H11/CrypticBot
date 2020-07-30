@@ -6,6 +6,24 @@ from PyDrocsid.translations import translations
 from discord import Attachment, File, TextChannel, Member, Message, Embed
 from discord.ext.commands import Bot, CommandError
 
+ACTIVE_ROLES = {
+    "admin",
+    "head",
+    "head_assistant",
+    "frontend",
+    "backend",
+    "qm",
+    "gamedesign",
+    "design",
+    "website",
+    "social_media",
+    "wiki",
+    "security",
+    "correction",
+    "text",
+    "translator",
+}
+
 
 def make_error(message) -> str:
     return f":x: Error: {message}"

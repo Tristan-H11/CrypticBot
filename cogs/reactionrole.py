@@ -12,13 +12,17 @@ from models.reactionrole import ReactionRole
 from permissions import Permission
 
 
+class RoleNotFound(Exception):
+    pass
+
+
 async def get_role(message: Message, emoji: PartialEmoji) -> Tuple[ReactionRole, Role]:
     link: Optional[ReactionRole] = await db_thread(ReactionRole.get, message.channel.id, message.id, str(emoji))
     if link is None:
-        raise NotFound
+        raise RoleNotFound
     role: Optional[Role] = link.get_role(message.guild)
     if role is None:
-        raise NotFound
+        raise RoleNotFound
     return link, role
 
 
@@ -32,7 +36,7 @@ class ReactionRoleCog(Cog, name="ReactionRole"):
 
         try:
             link, role = await get_role(message, emoji)
-        except NotFound:
+        except RoleNotFound:
             return
 
         try:
@@ -52,7 +56,7 @@ class ReactionRoleCog(Cog, name="ReactionRole"):
 
         try:
             link, role = await get_role(message, emoji)
-        except NotFound:
+        except RoleNotFound:
             return
         if link.auto_remove:
             return
