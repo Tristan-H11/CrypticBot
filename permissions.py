@@ -2,6 +2,7 @@ from enum import auto
 from typing import Union
 
 from PyDrocsid.permission import BasePermission, BasePermissionLevel
+from PyDrocsid.settings import Settings
 from PyDrocsid.translations import translations
 from discord import Member, User
 from discord.ext.commands import Converter, Context, BadArgument
@@ -19,7 +20,7 @@ class Permission(BasePermission):
 
 
 class PermissionLevel(BasePermissionLevel):
-    PUBLIC, MODERATOR, ADMINISTRATOR, OWNER = range(4)
+    PUBLIC, HEAD_ASSISTANT, HEAD, ADMINISTRATOR, OWNER = range(5)
 
     @classmethod
     async def get_permission_level(cls, member: Union[Member, User]) -> "PermissionLevel":
@@ -29,8 +30,17 @@ class PermissionLevel(BasePermissionLevel):
         if not isinstance(member, Member):
             return PermissionLevel.PUBLIC
 
-        if member.guild_permissions.administrator:
+        roles = {role.id for role in member.roles}
+
+        async def has_role(role_name):
+            return await Settings.get(int, role_name + "_role") in roles
+
+        if member.guild_permissions.administrator or await has_role("admin"):
             return PermissionLevel.ADMINISTRATOR
+        if await has_role("head"):
+            return PermissionLevel.HEAD
+        if await has_role("head_assistant"):
+            return PermissionLevel.HEAD_ASSISTANT
 
         return PermissionLevel.PUBLIC
 
@@ -39,8 +49,10 @@ class PermissionLevelConverter(Converter):
     async def convert(self, ctx: Context, argument: str) -> PermissionLevel:
         if argument.lower() in ("administrator", "admin", "a"):
             return PermissionLevel.ADMINISTRATOR
-        if argument.lower() in ("moderator", "mod", "m"):
-            return PermissionLevel.MODERATOR
+        if argument.lower() in ("head", "h"):
+            return PermissionLevel.HEAD
+        if argument.lower() in ("head_assistant", "headassistant", "ha"):
+            return PermissionLevel.HEAD_ASSISTANT
         if argument.lower() in ("public", "p"):
             return PermissionLevel.PUBLIC
         raise BadArgument(translations.invalid_permission_level)

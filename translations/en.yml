@@ -36,10 +36,21 @@ help_usage: |
   Type `{0}help <command>` for more info on a command.
   Type `{0}help <cog>` for more info on a cog.
 
+# roles
+roles: Roles
+role_not_set: Role not set.
+role_set: Role has been set successfully.
+role_admin: Administrator
+role_head: Head
+role_head_assistant: Head Assistant
+role_not_set_too_high: Role could not be set because `@{}` is higher than `@{}`.
+role_not_set_managed_role: Role could not be set because `@{}` cannot be assigned manually.
+
 # permissions
 permission_levels:
   - Public
-  - Moderator
+  - Head Assistant
+  - Head
   - Administrator
 no_permissions: No priviliges granted.
 invalid_permission_level: Invalid permission level.
