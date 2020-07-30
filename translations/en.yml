@@ -77,3 +77,20 @@ permissions:
   admininfo: view admininfo
   view_own_permissions: view own permissions
   view_all_permissions: view all permissions
+
+  manage_rr: manage reactionrole
+
+# reactionrole
+no_reactionrole_links: No ReactionRole links have been created yet.
+no_reactionrole_links_for_msg: No ReactionRole links have been created yet for this message.
+rr_link_already_exists: A link already exists for this reaction on this message.
+rr_link_created: Link has been created successfully.
+rr_link_not_created_no_permissions: >
+  Link could not be created because I don't have `add_reactions` permission in this channel.
+log_rr_link_created: ReactionRole link for {} -> `@{}` has been created on {}
+rr_link_not_found: Such a link does not exist.
+rr_link_removed: Link has been removed successfully.
+log_rr_link_removed: ReactionRole link for {} has been deleted on {}
+rr_link: "{} -> `@{}`"
+rr_link_reverse: "{} -> `@{}` (reverse)"
+
