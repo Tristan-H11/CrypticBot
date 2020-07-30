@@ -13,7 +13,10 @@ log_prefix_updated: Bot prefix has been changed to `{}`
 # info
 bot_description: Bot for the Cryptic Discord Server
 features:
+  - ReactionRole
 admin_features:
+  - AutoRole
+  - Permission system
 features_title: Features
 author_title: Author
 contributors_title: Contributors
