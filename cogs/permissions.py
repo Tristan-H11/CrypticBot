@@ -45,6 +45,15 @@ class PermissionsCog(Cog, name="Permissions"):
     def __init__(self, bot: Bot):
         self.bot = bot
 
+        def set_role(role_name: str):
+            async def inner(ctx: Context, *, role: Role):
+                await configure_role(ctx, role_name, role)
+
+            return inner
+
+        for name, title in translations.role_names.items():
+            self.roles.command(name=name, help=f"configure {title.lower()} role")(set_role(name))
+
     @commands.group()
     @PermissionLevel.ADMINISTRATOR.check
     @guild_only()
@@ -59,35 +68,11 @@ class PermissionsCog(Cog, name="Permissions"):
             return
 
         embed = Embed(title=translations.roles, color=0x256BE6)
-        for role_name in ["admin", "head", "head_assistant"]:
-            role = ctx.guild.get_role(await Settings.get(int, role_name + "_role"))
+        for name, title in translations.role_names.items():
+            role = ctx.guild.get_role(await Settings.get(int, name + "_role"))
             val = role.mention if role is not None else translations.role_not_set
-            embed.add_field(name=getattr(translations, f"role_{role_name}"), value=val, inline=False)
+            embed.add_field(name=title, value=val, inline=True)
         await ctx.send(embed=embed)
-
-    @roles.command(name="administrator", aliases=["admin", "a"])
-    async def roles_administrator(self, ctx: Context, *, role: Role):
-        """
-        set administrator role
-        """
-
-        await configure_role(ctx, "admin", role)
-
-    @roles.command(name="head", aliases=["h"])
-    async def roles_head(self, ctx: Context, *, role: Role):
-        """
-        set administrator role
-        """
-
-        await configure_role(ctx, "head", role)
-
-    @roles.command(name="head_assistant", aliases=["ha"])
-    async def roles_head_assistant(self, ctx: Context, *, role: Role):
-        """
-        set administrator role
-        """
-
-        await configure_role(ctx, "head_assistant", role)
 
     @commands.group(aliases=["perm", "p"])
     @guild_only()

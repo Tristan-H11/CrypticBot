@@ -40,9 +40,22 @@ help_usage: |
 roles: Roles
 role_not_set: Role not set.
 role_set: Role has been set successfully.
-role_admin: Administrator
-role_head: Head
-role_head_assistant: Head Assistant
+role_names:
+  admin: Administrator
+  head: Head
+  head_assistant: Head Assistant
+  frontend: Frontend
+  backend: Backend
+  qm: Quality Management
+  gamedesign: Gamedesign
+  design: Design
+  website: Website
+  social_media: Social Media
+  wiki: Wiki
+  security: Security
+  correction: Correction
+  text: Text
+  translator: Translator
 role_not_set_too_high: Role could not be set because `@{}` is higher than `@{}`.
 role_not_set_managed_role: Role could not be set because `@{}` cannot be assigned manually.
 
