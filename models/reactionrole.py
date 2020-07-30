@@ -1,6 +1,7 @@
 import re
 from typing import Union, Optional
 
+from discord import Guild, Role
 from sqlalchemy import Column, BigInteger, String, Boolean
 
 from PyDrocsid.database import db
@@ -25,12 +26,20 @@ class ReactionRole(db.Base):
     message_id: Union[Column, int] = Column(BigInteger, primary_key=True)
     emoji_hex: Union[Column, str] = Column(String(64), primary_key=True)
     role_id: Union[Column, int] = Column(BigInteger)
+    auto_remove: Union[Column, bool] = Column(Boolean)
     reverse: Union[Column, bool] = Column(Boolean)
 
     @staticmethod
-    def create(channel_id: int, message_id: int, emoji: str, role_id: int, reverse: bool) -> "ReactionRole":
+    def create(
+        channel_id: int, message_id: int, emoji: str, role_id: int, reverse: bool, auto_remove: bool
+    ) -> "ReactionRole":
         row = ReactionRole(
-            channel_id=channel_id, message_id=message_id, emoji_hex=encode(emoji), role_id=role_id, reverse=reverse,
+            channel_id=channel_id,
+            message_id=message_id,
+            emoji_hex=encode(emoji),
+            role_id=role_id,
+            reverse=reverse,
+            auto_remove=auto_remove,
         )
         db.add(row)
         return row
@@ -42,3 +51,6 @@ class ReactionRole(db.Base):
     @property
     def emoji(self):
         return decode(self.emoji_hex)
+
+    def get_role(self, guild: Guild) -> Optional[Role]:
+        return guild.get_role(self.role_id)
