@@ -32,6 +32,6 @@ jobs:
           docker buildx build \
             --platform linux/amd64,linux/arm/v7,linux/arm64 \
             --output "type=image,push=true" \
-            --cache-to user/discordbot:cache \
-            --cache-from user/discordbot:cache \
-            -t user/discordbot:$tag .
+            --cache-to defelo/crypticbot:cache \
+            --cache-from defelo/crypticbot:cache \
+            -t defelo/crypticbot:$tag .
