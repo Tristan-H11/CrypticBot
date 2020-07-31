@@ -172,7 +172,8 @@ class InactivityCog(Cog, name="Inactivity"):
             days = await Settings.get(int, "inactive_days", 14)
             await ctx.send(translations.f_inactive_duration(days))
             return
-        elif days <= 0:
+
+        if days <= 0:
             raise CommandError(translations.invalid_duration)
 
         await Settings.set(int, "inactive_days", days)
