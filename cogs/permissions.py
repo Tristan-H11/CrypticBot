@@ -47,7 +47,7 @@ class PermissionsCog(Cog, name="Permissions"):
 
         def set_role(role_name: str):
             async def inner(ctx: Context, *, role: Role):
-                await configure_role(ctx, role_name, role)
+                await configure_role(ctx, role_name, role, role_name == "mute")
 
             return inner
 

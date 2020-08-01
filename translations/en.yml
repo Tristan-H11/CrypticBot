@@ -59,6 +59,7 @@ role_names:
   correction: Correction
   text: Text
   translator: Translator
+  mute: Mute
   notification: Notification
 role_not_set_too_high: Role could not be set because `@{}` is higher than `@{}`.
 role_not_set_managed_role: Role could not be set because `@{}` cannot be assigned manually.
