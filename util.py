@@ -6,6 +6,8 @@ from PyDrocsid.translations import translations
 from discord import Attachment, File, TextChannel, Member, Message, Embed, Guild
 from discord.ext.commands import Bot, CommandError
 
+from permissions import PermissionLevel
+
 ACTIVE_ROLES = {
     "admin",
     "head",
@@ -27,6 +29,10 @@ ACTIVE_ROLES = {
 
 def make_error(message) -> str:
     return f":x: Error: {message}"
+
+
+async def is_teamler(member: Member) -> bool:
+    return await PermissionLevel.HEAD_ASSISTANT.check_permissions(member)
 
 
 async def send_to_changelog(guild: Guild, message: str):

@@ -14,6 +14,13 @@ class Permission(BasePermission):
     view_own_permissions = auto()
     view_all_permissions = auto()
 
+    warn = auto()
+    mute = auto()
+    kick = auto()
+    ban = auto()
+    view_stats = auto()
+
+    init_join_log = auto()
     manage_rr = auto()
 
     manage_ar = auto()
