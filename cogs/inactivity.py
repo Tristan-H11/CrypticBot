@@ -11,7 +11,7 @@ from discord.ext.commands import Cog, Bot, guild_only, Context, CommandError
 
 from models.activity import Activity
 from permissions import Permission
-from util import ACTIVE_ROLES
+from util import ACTIVE_ROLES, send_to_changelog
 
 
 async def should_be_active(member: Member) -> bool:
@@ -178,3 +178,4 @@ class InactivityCog(Cog, name="Inactivity"):
 
         await Settings.set(int, "inactive_days", days)
         await ctx.send(translations.f_inactive_duration_set(days))
+        await send_to_changelog(ctx.guild, translations.f_inactive_duration_set(days))

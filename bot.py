@@ -18,12 +18,13 @@ from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 
 from cogs.autorole import AutoRoleCog
 from cogs.inactivity import InactivityCog
+from cogs.logging import LoggingCog
 from cogs.permissions import PermissionsCog
 from cogs.reactionrole import ReactionRoleCog
 from cogs.rules import RulesCog
 from info import VERSION, GITHUB_LINK, CONTRIBUTORS
 from permissions import Permission
-from util import get_prefix, set_prefix, make_error
+from util import get_prefix, set_prefix, make_error, send_to_changelog
 
 sentry_dsn = os.environ.get("SENTRY_DSN")
 if sentry_dsn:
@@ -117,6 +118,7 @@ async def change_prefix(ctx: Context, new_prefix: str):
 
     await set_prefix(new_prefix)
     await ctx.send(translations.prefix_updated)
+    await send_to_changelog(ctx.guild, translations.f_log_prefix_updated(new_prefix))
 
 
 async def build_info_embed(authorized: bool) -> Embed:
@@ -221,5 +223,5 @@ async def on_bot_ping(message: Message):
     await message.channel.send(embed=await build_info_embed(False))
 
 
-register_cogs(bot, PermissionsCog, ReactionRoleCog, AutoRoleCog, RulesCog, InactivityCog)
+register_cogs(bot, PermissionsCog, ReactionRoleCog, AutoRoleCog, RulesCog, InactivityCog, LoggingCog)
 bot.run(os.environ["TOKEN"])

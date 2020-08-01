@@ -22,6 +22,8 @@ class Permission(BasePermission):
     edit = auto()
     delete = auto()
 
+    log_manage = auto()
+
     scan_messages = auto()
     view_user = auto()
     view_inactive_users = auto()

@@ -3,7 +3,7 @@ from typing import Tuple, List, Optional
 
 from PyDrocsid.settings import Settings
 from PyDrocsid.translations import translations
-from discord import Attachment, File, TextChannel, Member, Message, Embed
+from discord import Attachment, File, TextChannel, Member, Message, Embed, Guild
 from discord.ext.commands import Bot, CommandError
 
 ACTIVE_ROLES = {
@@ -27,6 +27,12 @@ ACTIVE_ROLES = {
 
 def make_error(message) -> str:
     return f":x: Error: {message}"
+
+
+async def send_to_changelog(guild: Guild, message: str):
+    channel: Optional[TextChannel] = guild.get_channel(await Settings.get(int, "logging_changelog", -1))
+    if channel is not None:
+        await channel.send(message)
 
 
 async def get_prefix() -> str:

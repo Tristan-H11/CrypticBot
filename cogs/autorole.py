@@ -8,6 +8,7 @@ from discord.ext.commands import Cog, Bot, guild_only, Context, UserInputError, 
 
 from models.autorole import AutoRole
 from permissions import Permission
+from util import send_to_changelog
 
 
 class AutoRoleCog(Cog, name="AutoRole"):
@@ -56,7 +57,7 @@ class AutoRoleCog(Cog, name="AutoRole"):
 
         await db_thread(AutoRole.add, role.id)
         await ctx.send(translations.ar_added)
-        # await send_to_changelog(ctx.guild, translations.f_log_excluded(channel.mention))
+        await send_to_changelog(ctx.guild, translations.f_log_ar_added(role))
 
     @autorole.command(name="remove", aliases=["r", "del", "d", "-"])
     async def autorole_remove(self, ctx: Context, role: Role):
@@ -69,4 +70,4 @@ class AutoRoleCog(Cog, name="AutoRole"):
 
         await db_thread(AutoRole.remove, role.id)
         await ctx.send(translations.ar_removed)
-        # await send_to_changelog(ctx.guild, translations.f_log_unexcluded(channel.mention))
+        await send_to_changelog(ctx.guild, translations.f_log_ar_removed(role))

@@ -10,6 +10,7 @@ from discord.ext.commands import Cog, Bot, guild_only, Context, CommandError, Us
 
 from models.reactionrole import ReactionRole
 from permissions import Permission
+from util import send_to_changelog
 
 
 class RoleNotFound(Exception):
@@ -160,7 +161,7 @@ class ReactionRoleCog(Cog, name="ReactionRole"):
         await db_thread(ReactionRole.create, msg.channel.id, msg.id, str(emoji), role.id, reverse, auto_remove)
         await msg.add_reaction(emoji)
         await ctx.send(translations.rr_link_created)
-        # await send_to_changelog(ctx.guild, translations.f_log_rr_link_created(emoji, role, msg.jump_url))
+        await send_to_changelog(ctx.guild, translations.f_log_rr_link_created(emoji, role, msg.jump_url))
 
     @reactionrole.command(name="remove", aliases=["r", "del", "d", "-"])
     async def reactionrole_remove(self, ctx: Context, msg: Message, emoji: EmojiConverter):
@@ -178,4 +179,4 @@ class ReactionRoleCog(Cog, name="ReactionRole"):
             if str(emoji) == str(reaction.emoji):
                 await reaction.clear()
         await ctx.send(translations.rr_link_removed)
-        # await send_to_changelog(ctx.guild, translations.f_log_rr_link_removed(emoji, msg.jump_url))
+        await send_to_changelog(ctx.guild, translations.f_log_rr_link_removed(emoji, msg.jump_url))

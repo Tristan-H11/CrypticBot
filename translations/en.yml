@@ -43,6 +43,7 @@ help_usage: |
 roles: Roles
 role_not_set: Role not set.
 role_set: Role has been set successfully.
+log_role_set: "{} role has been set to `@{}` ({})"
 role_names:
   admin: Administrator
   head: Head
@@ -87,6 +88,8 @@ permissions:
 
   manage_ar: manage autorole
 
+  log_manage: manage logging
+
   send: send a message as the bot
   edit: edit messages sent by the bot
   delete: delete a message
@@ -110,14 +113,18 @@ log_rr_link_removed: ReactionRole link for {} has been deleted on {}
 rr_link: "{} -> `@{}`"
 rr_reverse: reverse
 rr_auto_remove: auto remove
+link_not_created_too_high: Link could not be created because `@{}` is higher than `@{}`.
+link_not_created_managed_role: Link could not be created because `@{}` cannot be assigned manually.
 
 # autorole
 autorole: AutoRole
 no_autorole: No roles have been configured yet.
 ar_already_set: Role already set.
 ar_added: AutoRole has been added successfully.
+log_ar_added: AutoRole `@{}` has been added successfully.
 ar_not_set: Role not set.
 ar_removed: AutoRole has been removed successfully.
+log_ar_removed: AutoRole `@{}` has been removed successfully.
 
 # rule commands
 send_embed_title: Send me the title of the embed!
@@ -157,3 +164,52 @@ user_inactive: ":small_orange_diamond: {}"
 user_inactive_since: ":small_orange_diamond: {} (since {})"
 inactive_duration: Users that have not sent a message for {} days are marked as inactive.
 inactive_duration_set: Inactivity duration has been set to {} days.
+
+# logging
+message_edited: Message Edited
+channel: Channel
+url: URL
+old_content: Old Content
+new_content: New Content
+message_deleted: Message Deleted
+attachments: Attachments
+message_id: Message ID
+logging_channels_header: "Logging channels:"
+msg_edit_on: "message edit: {} (minimum distance: {})"
+msg_edit_off: "message edit: *disabled*"
+msg_delete_on: "message delete: {}"
+msg_delete_off: "message delete: *disabled*"
+changelog_on: "changelog: {}"
+changelog_off: "changelog: *disabled*"
+min_diff_gt_zero: Minimum distance must be greater than zero.
+edit_mindiff_updated: Message edit events will now only be logged if the edit distance is at least {}.
+log_mindiff_updated: Minimum edit distance has been set to {}.
+log_not_changed_no_permissions: >
+  Logging channel could not be changed because I don't have `send_messages` permission there.
+log_edit_updated: Logs for message edit events will now be sent to {}.
+log_edit_disabled: Logging for message edit events has been disabled.
+log_delete_updated: Logs for message delete events will now be sent to {}.
+log_delete_disabled: Logging for message delete events has been disabled.
+log_changelog_updated: Changelog channel is now {}.
+log_changelog_disabled: Changelog channel has been disabled.
+maxage_disabled: Automatic deletion of old log entries is disabled.
+maxage_enabled: Log entries older than {} days will be deleted automatically.
+maxage_set: Maximum age of log entries has been set to {} days.
+maxage_set_disabled: Automatic deletion of old log entries has been disabled.
+logging: Logging
+msg_edit: ":pencil: Message Edit Channel"
+msg_delete: ":wastebasket: Message Delete Channel"
+changelog: ":clipboard: Changelog Channel"
+logging_disabled: ":x: Logging disabled"
+mindiff: ":straight_ruler: Minimum Edit Distance"
+maxage: ":clock3: Maximum Age"
+x_days: "{} days"
+already_excluded: Channel is already excluded from logging.
+excluded: Channel has been excluded from logging.
+log_excluded: Channel {} has been excluded from logging.
+not_excluded: Channel is not excluded from logging.
+unexcluded: Channel has been removed from logging exclude list.
+log_unexcluded: Channel {} has been removed from logging exclude list.
+excluded_channels: Logging - Excluded Channels
+no_channels_excluded: No Channels have been excluded from logging.
+disabled: ":x: Disabled"

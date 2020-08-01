@@ -8,6 +8,7 @@ from discord.ext import commands
 from discord.ext.commands import Cog, Bot, guild_only, Context, CommandError, UserInputError
 
 from permissions import Permission, PermissionLevel, PermissionLevelConverter
+from util import send_to_changelog
 
 
 async def list_permissions(ctx: Context, title: str, min_level: PermissionLevel):
@@ -38,7 +39,9 @@ async def configure_role(ctx: Context, role_name: str, role: Role, check_assigna
             raise CommandError(translations.f_role_not_set_managed_role(role))
     await Settings.set(int, role_name + "_role", role.id)
     await ctx.send(translations.role_set)
-    # await send_to_changelog(ctx.guild, getattr(translations, "f_log_role_set_" + role_name)(role.name, role.id))
+    await send_to_changelog(
+        ctx.guild, getattr(translations, "f_log_role_set")(translations.role_names[role_name], role.name, role.id),
+    )
 
 
 class PermissionsCog(Cog, name="Permissions"):
