@@ -14,9 +14,13 @@ log_prefix_updated: Bot prefix has been changed to `{}`
 bot_description: Bot for the Cryptic Discord Server
 features:
   - ReactionRole
+  - Mod Tools
+  - Activity Monitoring
 admin_features:
+  - Logging of message edit and delete events
+  - Send/Edit/Delete text and embed messages as the bot
   - AutoRole
-  - Permission system
+  - Permission System
 features_title: Features
 author_title: Author
 contributors_title: Contributors
@@ -304,3 +308,16 @@ ulog_unbanned_expired: ":white_check_mark:  **Unbanned** because the ban time ha
 ulog_invite_approved: ":+1:  **Invite approved** by {}: {}"
 ulog_invite_removed: ":-1:  **Invite removed** by {}: {}"
 utc_note: Timestamps in UTC
+
+# roles
+role_auth: Role Assignment Authorizations
+no_role_auth: No role assignment authorizations have been created yet.
+role_auths: Role Authorizations
+user_auths: User Authorizations
+role_auth_already_exists: Role assignment authorization already exists.
+role_auth_created: Role assignment authorization has been created successfully.
+log_role_auth_created: Role assignment authorization `@{}` -> `@{}` has been created.
+role_auth_not_found: Role assignment authorization does not exist.
+role_auth_removed: Role assignment authorization has been removed successfully.
+log_role_auth_removed: Role assignment authorization `@{}` -> `@{}` has been removed.
+role_not_authorized: You are not allowed to manage this role.
