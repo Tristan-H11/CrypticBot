@@ -31,6 +31,8 @@ class Permission(BasePermission):
 
     log_manage = auto()
 
+    list_members = auto()
+
     scan_messages = auto()
     view_user = auto()
     view_inactive_users = auto()

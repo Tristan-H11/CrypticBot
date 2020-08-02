@@ -3,12 +3,13 @@ from typing import Optional, Union, Dict, List
 from PyDrocsid.database import db_thread, db
 from PyDrocsid.settings import Settings
 from PyDrocsid.translations import translations
+from PyDrocsid.util import send_long_embed
 from discord import Role, Embed, Member
 from discord.ext import commands
 from discord.ext.commands import Cog, Bot, CommandError, Context, guild_only, UserInputError
 
 from models.role_auth import RoleAuth
-from permissions import PermissionLevel
+from permissions import PermissionLevel, Permission
 from util import send_to_changelog
 
 
@@ -161,3 +162,17 @@ class RolesCog(Cog, name="Roles"):
 
         await member.remove_roles(role)
         await ctx.message.add_reaction("\u2705")
+
+    @roles.command(name="list", aliases=["l", "?"])
+    @Permission.list_members.check
+    async def roles_list(self, ctx: Context, *, role: Role):
+        """
+        list all members with a specific role
+        """
+
+        out = [f":small_orange_diamond: {member.mention} (`@{member}`)" for member in role.members]
+        if out:
+            embed = Embed(title=translations.member_list, colour=0x256BE6, description="\n".join(out))
+        else:
+            embed = Embed(title=translations.member_list, colour=0xCF0606, description=translations.no_members)
+        await send_long_embed(ctx, embed)

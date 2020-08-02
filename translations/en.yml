@@ -105,6 +105,8 @@ permissions:
   edit: edit messages sent by the bot
   delete: delete a message
 
+  list_members: list all members with a specific role
+
   scan_messages: scan channels for latest message of each user
   view_user: view information about a user
   view_inactive_users: list all inactive users
@@ -321,3 +323,5 @@ role_auth_not_found: Role assignment authorization does not exist.
 role_auth_removed: Role assignment authorization has been removed successfully.
 log_role_auth_removed: Role assignment authorization `@{}` -> `@{}` has been removed.
 role_not_authorized: You are not allowed to manage this role.
+member_list: Member List
+no_members: No member was found with this role.
