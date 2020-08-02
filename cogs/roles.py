@@ -21,7 +21,7 @@ async def configure_role(ctx: Context, role_name: str, role: Role, check_assigna
     await Settings.set(int, role_name + "_role", role.id)
     await ctx.send(translations.role_set)
     await send_to_changelog(
-        ctx.guild, getattr(translations, "f_log_role_set")(translations.role_names[role_name], role.name, role.id),
+        ctx.guild, translations.f_log_role_set(translations.role_names[role_name], role.name, role.id),
     )
 
 
