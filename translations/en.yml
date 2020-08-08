@@ -325,5 +325,6 @@ role_auth_removed: Role assignment authorization has been removed successfully.
 log_role_auth_removed: Role assignment authorization `@{}` -> `@{}` has been removed.
 role_not_authorized: You are not allowed to manage this role.
 member_list: Member List
+member_list_cnt: Member List ({})
 member_list_line: ":small_orange_diamond: {} ({})"
 no_members: No member was found with this role.

@@ -172,7 +172,7 @@ class RolesCog(Cog, name="Roles"):
 
         out = [translations.f_member_list_line(member.mention, code(f"@{member}")) for member in role.members]
         if out:
-            embed = Embed(title=translations.member_list, colour=0x256BE6, description="\n".join(out))
+            embed = Embed(title=translations.f_member_list_cnt(len(out)), colour=0x256BE6, description="\n".join(out))
         else:
             embed = Embed(title=translations.member_list, colour=0xCF0606, description=translations.no_members)
         await send_long_embed(ctx, embed)
