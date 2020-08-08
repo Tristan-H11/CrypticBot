@@ -10,7 +10,7 @@ from discord.ext.commands import Cog, Bot, CommandError, Context, guild_only, Us
 
 from models.role_auth import RoleAuth
 from permissions import PermissionLevel, Permission
-from util import send_to_changelog
+from util import send_to_changelog, code
 
 
 async def configure_role(ctx: Context, role_name: str, role: Role, check_assignable: bool = False):
@@ -170,7 +170,7 @@ class RolesCog(Cog, name="Roles"):
         list all members with a specific role
         """
 
-        out = [f":small_orange_diamond: {member.mention} (`@{member}`)" for member in role.members]
+        out = [translations.f_member_list_line(member.mention, code(f"@{member}")) for member in role.members]
         if out:
             embed = Embed(title=translations.member_list, colour=0x256BE6, description="\n".join(out))
         else:

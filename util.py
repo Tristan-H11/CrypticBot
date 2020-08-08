@@ -78,3 +78,18 @@ async def read_complete_message(message: Message) -> Tuple[str, List[File], Opti
         embed = None
 
     return message.content, [await attachment_to_file(attachment) for attachment in message.attachments], embed
+
+
+def escape_backticks(text) -> str:
+    text = str(text)
+    for _ in "xx":
+        text = text.replace("``", "`\u200b`")
+    return text
+
+
+def code(text) -> str:
+    return f"``{escape_backticks(text)}``"
+
+
+def codeblock(text, language: Optional[str] = None) -> str:
+    return f"```{language or ''}\n{escape_backticks(text)}\n```"

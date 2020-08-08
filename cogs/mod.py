@@ -13,7 +13,7 @@ from PyDrocsid.translations import translations
 from PyDrocsid.util import send_long_embed
 from models.mod import Join, Mute, Ban, Leave, UsernameUpdate, Report, Warn, Kick
 from permissions import Permission
-from util import send_to_changelog, get_prefix, is_teamler
+from util import send_to_changelog, get_prefix, is_teamler, code, codeblock
 
 
 class DurationConverter(Converter):
@@ -69,7 +69,9 @@ class ModCog(Cog, name="Mod Tools"):
                 user: Optional[User] = await self.bot.fetch_user(ban.member)
                 if user is not None:
                     await guild.unban(user)
-                await send_to_changelog(guild, translations.f_log_unbanned_expired(f"<@{ban.member}>", ban.member_name))
+                await send_to_changelog(
+                    guild, translations.f_log_unbanned_expired(f"<@{ban.member}>", code(ban.member_name))
+                )
                 await db_thread(Ban.deactivate, ban.id)
 
         mute_role: Optional[Role] = guild.get_role(await Settings.get(int, "mute_role"))
@@ -82,7 +84,7 @@ class ModCog(Cog, name="Mod Tools"):
                 if member is not None:
                     await member.remove_roles(mute_role)
                 await send_to_changelog(
-                    guild, translations.f_log_unmuted_expired(f"<@{mute.member}>", mute.member_name)
+                    guild, translations.f_log_unmuted_expired(f"<@{mute.member}>", code(mute.member_name))
                 )
                 await db_thread(Mute.deactivate, mute.id)
 
@@ -120,7 +122,7 @@ class ModCog(Cog, name="Mod Tools"):
         await db_thread(Report.create, member.id, str(member), ctx.author.id, reason)
         await ctx.send(translations.reported_response)
         await send_to_changelog(
-            ctx.guild, translations.f_log_reported(ctx.author.mention, member.mention, member, reason)
+            ctx.guild, translations.f_log_reported(ctx.author.mention, member.mention, code(member), code(reason))
         )
 
     @commands.command()
@@ -138,13 +140,13 @@ class ModCog(Cog, name="Mod Tools"):
             raise CommandError(translations.cannot_warn)
 
         try:
-            await member.send(translations.f_warned(ctx.author.mention, ctx.guild.name, reason))
+            await member.send(translations.f_warned(ctx.author.mention, ctx.guild.name, codeblock(reason)))
         except (Forbidden, HTTPException):
             await ctx.send(translations.no_dm)
         await db_thread(Warn.create, member.id, str(member), ctx.author.id, reason)
         await ctx.send(translations.warned_response)
         await send_to_changelog(
-            ctx.guild, translations.f_log_warned(ctx.author.mention, member.mention, member, reason)
+            ctx.guild, translations.f_log_warned(ctx.author.mention, member.mention, code(member), code(reason))
         )
 
     async def get_user(self, guild: Guild, user: Union[Member, User, int]) -> Union[Member, User]:
@@ -184,22 +186,22 @@ class ModCog(Cog, name="Mod Tools"):
 
         try:
             if days is not None:
-                await user.send(translations.f_muted(ctx.author.mention, ctx.guild.name, days, reason))
+                await user.send(translations.f_muted(ctx.author.mention, ctx.guild.name, days, codeblock(reason)))
             else:
-                await user.send(translations.f_muted_inf(ctx.author.mention, ctx.guild.name, reason))
+                await user.send(translations.f_muted_inf(ctx.author.mention, ctx.guild.name, codeblock(reason)))
         except (Forbidden, HTTPException):
             await ctx.send(translations.no_dm)
         if days is not None:
             await db_thread(Mute.create, user.id, str(user), ctx.author.id, days, reason)
             await ctx.send(translations.muted_response)
             await send_to_changelog(
-                ctx.guild, translations.f_log_muted(ctx.author.mention, user.mention, user, days, reason)
+                ctx.guild, translations.f_log_muted(ctx.author.mention, user.mention, code(user), days, code(reason))
             )
         else:
             await db_thread(Mute.create, user.id, str(user), ctx.author.id, -1, reason)
             await ctx.send(translations.muted_response)
             await send_to_changelog(
-                ctx.guild, translations.f_log_muted_inf(ctx.author.mention, user.mention, user, reason)
+                ctx.guild, translations.f_log_muted_inf(ctx.author.mention, user.mention, code(user), code(reason))
             )
 
     @commands.command()
@@ -228,7 +230,9 @@ class ModCog(Cog, name="Mod Tools"):
             raise CommandError(translations.not_muted)
 
         await ctx.send(translations.unmuted_response)
-        await send_to_changelog(ctx.guild, translations.f_log_unmuted(ctx.author.mention, user.mention, user, reason))
+        await send_to_changelog(
+            ctx.guild, translations.f_log_unmuted(ctx.author.mention, user.mention, code(user), code(reason))
+        )
 
     @commands.command()
     @Permission.kick.check
@@ -251,14 +255,14 @@ class ModCog(Cog, name="Mod Tools"):
             raise CommandError(translations.cannot_kick)
 
         try:
-            await member.send(translations.f_kicked(ctx.author.mention, ctx.guild.name, reason))
+            await member.send(translations.f_kicked(ctx.author.mention, ctx.guild.name, codeblock(reason)))
         except (Forbidden, HTTPException):
             await ctx.send(translations.no_dm)
         await member.kick(reason=reason)
         await db_thread(Kick.create, member.id, str(member), ctx.author.id, reason)
         await ctx.send(translations.kicked_response)
         await send_to_changelog(
-            ctx.guild, translations.f_log_kicked(ctx.author.mention, member.mention, member, reason)
+            ctx.guild, translations.f_log_kicked(ctx.author.mention, member.mention, code(member), code(reason))
         )
 
     @commands.command()
@@ -287,9 +291,9 @@ class ModCog(Cog, name="Mod Tools"):
 
         try:
             if days is not None:
-                await user.send(translations.f_banned(ctx.author.mention, ctx.guild.name, days, reason))
+                await user.send(translations.f_banned(ctx.author.mention, ctx.guild.name, days, codeblock(reason)))
             else:
-                await user.send(translations.f_banned_inf(ctx.author.mention, ctx.guild.name, reason))
+                await user.send(translations.f_banned_inf(ctx.author.mention, ctx.guild.name, codeblock(reason)))
         except (Forbidden, HTTPException):
             await ctx.send(translations.no_dm)
 
@@ -298,13 +302,13 @@ class ModCog(Cog, name="Mod Tools"):
             await db_thread(Ban.create, user.id, str(user), ctx.author.id, days, reason)
             await ctx.send(translations.banned_response)
             await send_to_changelog(
-                ctx.guild, translations.f_log_banned(ctx.author.mention, user.mention, user, days, reason)
+                ctx.guild, translations.f_log_banned(ctx.author.mention, user.mention, code(user), days, code(reason))
             )
         else:
             await db_thread(Ban.create, user.id, str(user), ctx.author.id, -1, reason)
             await ctx.send(translations.banned_response)
             await send_to_changelog(
-                ctx.guild, translations.f_log_banned_inf(ctx.author.mention, user.mention, user, reason)
+                ctx.guild, translations.f_log_banned_inf(ctx.author.mention, user.mention, code(user), code(reason))
             )
 
     @commands.command()
@@ -336,7 +340,9 @@ class ModCog(Cog, name="Mod Tools"):
             raise CommandError(translations.not_banned)
 
         await ctx.send(translations.unbanned_response)
-        await send_to_changelog(ctx.guild, translations.f_log_unbanned(ctx.author.mention, user.mention, user, reason))
+        await send_to_changelog(
+            ctx.guild, translations.f_log_unbanned(ctx.author.mention, user.mention, code(user), code(reason))
+        )
 
     async def get_stats_user(
         self, ctx: Context, user: Optional[Union[User, int]]
@@ -436,23 +442,27 @@ class ModCog(Cog, name="Mod Tools"):
             out.append((leave.timestamp, translations.ulog_left))
         for username_update in await db_thread(db.query, UsernameUpdate, member=user_id):
             if not username_update.nick:
-                msg = translations.f_ulog_username_updated(username_update.member_name, username_update.new_name)
+                msg = translations.f_ulog_username_updated(
+                    code(username_update.member_name), code(username_update.new_name)
+                )
             elif username_update.member_name is None:
-                msg = translations.f_ulog_nick_set(username_update.new_name)
+                msg = translations.f_ulog_nick_set(code(username_update.new_name))
             elif username_update.new_name is None:
-                msg = translations.f_ulog_nick_cleared(username_update.member_name)
+                msg = translations.f_ulog_nick_cleared(code(username_update.member_name))
             else:
-                msg = translations.f_ulog_nick_updated(username_update.member_name, username_update.new_name)
+                msg = translations.f_ulog_nick_updated(
+                    code(username_update.member_name), code(username_update.new_name)
+                )
             out.append((username_update.timestamp, msg))
         for report in await db_thread(db.query, Report, member=user_id):
-            out.append((report.timestamp, translations.f_ulog_reported(f"<@{report.reporter}>", report.reason)))
+            out.append((report.timestamp, translations.f_ulog_reported(f"<@{report.reporter}>", code(report.reason))))
         for warn in await db_thread(db.query, Warn, member=user_id):
-            out.append((warn.timestamp, translations.f_ulog_warned(f"<@{warn.mod}>", warn.reason)))
+            out.append((warn.timestamp, translations.f_ulog_warned(f"<@{warn.mod}>", code(warn.reason))))
         for mute in await db_thread(db.query, Mute, member=user_id):
             if mute.days == -1:
-                out.append((mute.timestamp, translations.f_ulog_muted_inf(f"<@{mute.mod}>", mute.reason)))
+                out.append((mute.timestamp, translations.f_ulog_muted_inf(f"<@{mute.mod}>", code(mute.reason))))
             else:
-                out.append((mute.timestamp, translations.f_ulog_muted(f"<@{mute.mod}>", mute.days, mute.reason)))
+                out.append((mute.timestamp, translations.f_ulog_muted(f"<@{mute.mod}>", mute.days, code(mute.reason))))
             if not mute.active:
                 if mute.unmute_mod is None:
                     out.append((mute.deactivation_timestamp, translations.ulog_unmuted_expired))
@@ -460,19 +470,19 @@ class ModCog(Cog, name="Mod Tools"):
                     out.append(
                         (
                             mute.deactivation_timestamp,
-                            translations.f_ulog_unmuted(f"<@{mute.unmute_mod}>", mute.unmute_reason),
+                            translations.f_ulog_unmuted(f"<@{mute.unmute_mod}>", code(mute.unmute_reason)),
                         )
                     )
         for kick in await db_thread(db.query, Kick, member=user_id):
             if kick.mod is not None:
-                out.append((kick.timestamp, translations.f_ulog_kicked(f"<@{kick.mod}>", kick.reason)))
+                out.append((kick.timestamp, translations.f_ulog_kicked(f"<@{kick.mod}>", code(kick.reason))))
             else:
                 out.append((kick.timestamp, translations.ulog_autokicked))
         for ban in await db_thread(db.query, Ban, member=user_id):
             if ban.days == -1:
-                out.append((ban.timestamp, translations.f_ulog_banned_inf(f"<@{ban.mod}>", ban.reason)))
+                out.append((ban.timestamp, translations.f_ulog_banned_inf(f"<@{ban.mod}>", code(ban.reason))))
             else:
-                out.append((ban.timestamp, translations.f_ulog_banned(f"<@{ban.mod}>", ban.days, ban.reason)))
+                out.append((ban.timestamp, translations.f_ulog_banned(f"<@{ban.mod}>", ban.days, code(ban.reason))))
             if not ban.active:
                 if ban.unban_mod is None:
                     out.append((ban.deactivation_timestamp, translations.ulog_unbanned_expired))
@@ -480,7 +490,7 @@ class ModCog(Cog, name="Mod Tools"):
                     out.append(
                         (
                             ban.deactivation_timestamp,
-                            translations.f_ulog_unbanned(f"<@{ban.unban_mod}>", ban.unban_reason),
+                            translations.f_ulog_unbanned(f"<@{ban.unban_mod}>", code(ban.unban_reason)),
                         )
                     )
 

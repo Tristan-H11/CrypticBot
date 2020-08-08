@@ -11,7 +11,7 @@ from discord.ext.commands import Cog, Bot, guild_only, Context, CommandError
 
 from models.activity import Activity
 from permissions import Permission
-from util import ACTIVE_ROLES, send_to_changelog
+from util import ACTIVE_ROLES, send_to_changelog, code
 
 
 async def should_be_active(member: Member) -> bool:
@@ -25,14 +25,10 @@ async def should_be_active(member: Member) -> bool:
     return False
 
 
-async def collect_active(guild: Guild) -> List[Member]:
-    out = set()
-    for role_name in ACTIVE_ROLES:
-        role: Role = guild.get_role(await Settings.get(int, role_name + "_role"))
-        if role is None:
-            continue
-        out.update(role.members)
-    return [member for member in out if not member.bot]
+async def collect_active(guild: Guild, roles: Optional[List[Role]] = None) -> List[Member]:
+    if not roles:
+        roles = [role for name in ACTIVE_ROLES if (role := guild.get_role(await Settings.get(int, f"{name}_role")))]
+    return [*{member for role in roles for member in role.members if not member.bot}]
 
 
 async def last_activity(member: Member) -> Optional[datetime]:
@@ -123,7 +119,7 @@ class InactivityCog(Cog, name="Inactivity"):
     @commands.command(aliases=["in"])
     @Permission.view_inactive_users.check
     @guild_only()
-    async def inactive(self, ctx: Context, days: Optional[int]):
+    async def inactive(self, ctx: Context, role: Optional[Role], days: Optional[int]):
         """
         list inactive users
         """
@@ -137,7 +133,7 @@ class InactivityCog(Cog, name="Inactivity"):
         now = datetime.utcnow()
         activity = {a.user_id: a.last_message for a in await db_thread(db.all, Activity)}
         members = []
-        for member in await collect_active(ctx.guild):
+        for member in await collect_active(ctx.guild, [role] if role else None):
             last_message: Optional[datetime] = activity.get(member.id)
             if last_message is None:
                 members.append((member, None))
@@ -146,14 +142,17 @@ class InactivityCog(Cog, name="Inactivity"):
         members.sort(key=lambda a: (1, a[1], str(a[0])) if a[1] else (0, str(a[0])))
         for member, last_message in members:
             if last_message is None:
-                out.append(translations.f_user_inactive(member.mention))
+                out.append(translations.f_user_inactive(member.mention, code(f"@{member}")))
             else:
                 out.append(
-                    translations.f_user_inactive_since(member.mention, last_message.strftime("%d.%m.%Y %H:%M:%S"))
+                    translations.f_user_inactive_since(
+                        member.mention, code(f"@{member}"), last_message.strftime("%d.%m.%Y %H:%M:%S")
+                    )
                 )
 
         embed = Embed(title=translations.inactive_users, colour=0x256BE6)
         if out:
+            embed.title = translations.f_inactive_users_cnt(len(out))
             embed.description = "\n".join(out)
         else:
             embed.description = translations.no_inactive_users
