@@ -28,8 +28,8 @@ async def should_be_active(member: Member) -> bool:
 
 async def collect_active(guild: Guild, roles: Optional[List[Role]] = None) -> List[Member]:
     if not roles:
-        roles = [role for name in ACTIVE_ROLES if (role := guild.get_role(await Settings.get(int, f"{name}_role")))]
-    return [*{member for role in roles for member in role.members if not member.bot}]
+        roles = [guild.get_role(await Settings.get(int, f"{name}_role")) for name in ACTIVE_ROLES]
+    return [*{member for role in roles if role for member in role.members if not member.bot}]
 
 
 async def last_activity(member: Member) -> Optional[datetime]:
