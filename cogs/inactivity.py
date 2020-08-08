@@ -9,6 +9,7 @@ from discord import Message, Guild, Member, Embed, Role
 from discord.ext import commands
 from discord.ext.commands import Cog, Bot, guild_only, Context, CommandError
 
+from cogs.logging import ignore
 from models.activity import Activity
 from permissions import Permission
 from util import ACTIVE_ROLES, send_to_changelog, code
@@ -64,7 +65,7 @@ class InactivityCog(Cog, name="Inactivity"):
         guild: Guild = ctx.guild
         members = {}
         for i, channel in enumerate(guild.text_channels):
-            await message.edit(
+            await ignore(message).edit(
                 content=translations.f_scanning_channel(channel.mention, i + 1, len(guild.text_channels))
             )
             async for msg in channel.history(limit=None, oldest_first=False):
@@ -73,7 +74,7 @@ class InactivityCog(Cog, name="Inactivity"):
                 if msg.author.bot:
                     continue
                 members[msg.author] = max(members.get(msg.author, msg.created_at), msg.created_at)
-        await message.edit(content=translations.f_scan_complete(len(guild.text_channels)))
+        await ignore(message).edit(content=translations.f_scan_complete(len(guild.text_channels)))
 
         message: Message = await ctx.send(translations.updating_members)
 
@@ -82,7 +83,7 @@ class InactivityCog(Cog, name="Inactivity"):
                 Activity.update(member.id, last_message)
 
         await db_thread(update_members)
-        await message.edit(content=translations.f_updated_members(len(members)))
+        await ignore(message).edit(content=translations.f_updated_members(len(members)))
 
     @commands.command()
     @Permission.view_user.check

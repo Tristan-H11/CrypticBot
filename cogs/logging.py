@@ -21,13 +21,13 @@ from util import send_to_changelog
 ignored_messages: Set[int] = set()
 
 
-def ignore(message: Message):
+def ignore(message: Message) -> Message:
     ignored_messages.add(message.id)
+    return message
 
 
 async def delete_nolog(message: Message, delay: Optional[int] = None):
-    ignore(message)
-    await message.delete(delay=delay)
+    await ignore(message).delete(delay=delay)
 
 
 def add_field(embed: Embed, name: str, text: str):
