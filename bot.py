@@ -197,6 +197,21 @@ async def version(ctx: Context):
     await ctx.send(f"CrypticBot v{VERSION}")
 
 
+@bot.command(aliases=["yn"])
+@guild_only()
+async def yesno(ctx: Context, message: Optional[Message] = None):
+    """
+    adds thumbsup and thumbsdown reactions to the message
+    """
+
+    if message is None or message.guild is None:
+        message = ctx.message
+
+    if message.channel.permissions_for(ctx.author).add_reactions:
+        await message.add_reaction(chr(0x1F44D))
+        await message.add_reaction(chr(0x1F44E))
+
+
 @bot.command()
 @PermissionLevel.HEAD.check
 async def hm(_):
