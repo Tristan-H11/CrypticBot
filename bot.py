@@ -10,7 +10,7 @@ from PyDrocsid.events import listener, register_cogs
 from PyDrocsid.help import send_help
 from PyDrocsid.translations import translations
 from PyDrocsid.util import measure_latency, send_long_embed
-from discord import Message, User, Forbidden, AllowedMentions, Embed
+from discord import Message, User, Forbidden, AllowedMentions, Embed, TextChannel
 from discord.ext import tasks
 from discord.ext.commands import Bot, Context, guild_only, CommandError, CommandNotFound, UserInputError
 from sentry_sdk.integrations.aiohttp import AioHttpIntegration
@@ -25,7 +25,7 @@ from cogs.reactionrole import ReactionRoleCog
 from cogs.roles import RolesCog
 from cogs.rules import RulesCog
 from info import VERSION, GITHUB_LINK, CONTRIBUTORS
-from permissions import Permission
+from permissions import Permission, PermissionLevel
 from util import get_prefix, set_prefix, make_error, send_to_changelog
 
 sentry_dsn = os.environ.get("SENTRY_DSN")
@@ -195,6 +195,19 @@ async def version(ctx: Context):
     """
 
     await ctx.send(f"CrypticBot v{VERSION}")
+
+
+@bot.command()
+@PermissionLevel.HEAD.check
+async def hm(_):
+    """
+    custom hm command (temporary)
+    """
+
+    channel: Optional[TextChannel] = bot.get_channel(454750853967118336)
+    if channel is None:
+        raise CommandError("Channel not found")
+    await channel.send("<@&606183903035916320> Head meeting startet jetzt!")
 
 
 @bot.event
