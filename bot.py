@@ -24,6 +24,7 @@ from cogs.permissions import PermissionsCog
 from cogs.reactionrole import ReactionRoleCog
 from cogs.roles import RolesCog
 from cogs.rules import RulesCog
+from cogs.voice_channel import VoiceChannelCog
 from info import VERSION, GITHUB_LINK, CONTRIBUTORS
 from permissions import Permission, PermissionLevel
 from util import get_prefix, set_prefix, make_error, send_to_changelog
@@ -253,5 +254,16 @@ async def on_bot_ping(message: Message):
     await message.channel.send(embed=await build_info_embed(False))
 
 
-register_cogs(bot, PermissionsCog, ReactionRoleCog, AutoRoleCog, RulesCog, InactivityCog, LoggingCog, ModCog, RolesCog)
+register_cogs(
+    bot,
+    PermissionsCog,
+    ReactionRoleCog,
+    AutoRoleCog,
+    RulesCog,
+    InactivityCog,
+    LoggingCog,
+    ModCog,
+    RolesCog,
+    VoiceChannelCog,
+)
 bot.run(os.environ["TOKEN"])

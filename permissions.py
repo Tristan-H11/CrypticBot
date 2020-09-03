@@ -29,6 +29,10 @@ class Permission(BasePermission):
     edit = auto()
     delete = auto()
 
+    vc_private_owner = auto()
+    vc_manage_dyn = auto()
+    vc_manage_link = auto()
+
     log_manage = auto()
 
     list_members = auto()
