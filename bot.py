@@ -10,7 +10,7 @@ from PyDrocsid.events import listener, register_cogs
 from PyDrocsid.help import send_help
 from PyDrocsid.translations import translations
 from PyDrocsid.util import measure_latency, send_long_embed
-from discord import Message, User, Forbidden, AllowedMentions, Embed, TextChannel
+from discord import Message, User, Forbidden, AllowedMentions, Embed, TextChannel, Intents
 from discord.ext import tasks
 from discord.ext.commands import Bot, Context, guild_only, CommandError, CommandNotFound, UserInputError
 from sentry_sdk.integrations.aiohttp import AioHttpIntegration
@@ -48,7 +48,10 @@ async def fetch_prefix(_, message: Message) -> Iterable[str]:
     return await get_prefix(), f"<@!{bot.user.id}> ", f"<@{bot.user.id}> "
 
 
-bot = Bot(command_prefix=fetch_prefix, case_insensitive=True)
+intents = Intents.default()
+intents.members = True
+
+bot = Bot(command_prefix=fetch_prefix, case_insensitive=True, intents=intents)
 bot.remove_command("help")
 
 
