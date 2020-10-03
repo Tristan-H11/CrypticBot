@@ -42,6 +42,8 @@ class Permission(BasePermission):
     view_inactive_users = auto()
     set_inactive_duration = auto()
 
+    manage_rn = auto()
+
     @property
     def default_permission_level(self) -> "BasePermissionLevel":
         return PermissionLevel.ADMINISTRATOR

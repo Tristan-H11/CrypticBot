@@ -23,6 +23,7 @@ from cogs.logging import LoggingCog
 from cogs.mod import ModCog
 from cogs.permissions import PermissionsCog
 from cogs.reactionrole import ReactionRoleCog
+from cogs.role_notifications import RoleNotificationsCog
 from cogs.roles import RolesCog
 from cogs.rules import RulesCog
 from cogs.voice_channel import VoiceChannelCog
@@ -269,5 +270,6 @@ register_cogs(
     RolesCog,
     VoiceChannelCog,
     InfoCog,
+    RoleNotificationsCog,
 )
 bot.run(os.environ["TOKEN"])
