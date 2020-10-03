@@ -1,3 +1,3 @@
-VERSION = "1.3.1"
+VERSION = "1.4.0"
 CONTRIBUTORS = []
 GITHUB_LINK = "https://github.com/Defelo/CrypticBot"
