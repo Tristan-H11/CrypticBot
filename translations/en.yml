@@ -4,6 +4,9 @@ not_allowed: You are not allowed to use this command.
 pong: Pong!
 pong_latency: Pong ({:.0f} ms)
 
+# profile
+profile_status: github.com/Defelo/CrypticBot
+
 # prefix
 invalid_prefix_length: Length of prefix must be between 1 and 16
 prefix_invalid_chars: Prefix contains invalid characters.
@@ -33,6 +36,20 @@ bugs_features_title: Bug Reports / Feature Requests
 bugs_features: >
   Please [create an issue]({}/issues/new) in the GitHub repository
   or contact me (<@370876111992913922>) via Discord.
+
+# server info
+info_description: Information about this Discord Server
+creation_date: Creation Date
+cnt_members: "{} Members"
+cnt_online: "{} online"
+owner: Owner
+cnt_heads: "{} Heads"
+cnt_assistants: "{} Head Assistants"
+cnt_bots: "{} Bots"
+bots: Bots
+no_bots: No bots found.
+online: Online
+offline: Offline
 
 # help
 cog_or_command_not_found: This cog or command does not exist.

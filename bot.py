@@ -18,6 +18,7 @@ from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 
 from cogs.autorole import AutoRoleCog
 from cogs.inactivity import InactivityCog
+from cogs.info import InfoCog
 from cogs.logging import LoggingCog
 from cogs.mod import ModCog
 from cogs.permissions import PermissionsCog
@@ -48,8 +49,7 @@ async def fetch_prefix(_, message: Message) -> Iterable[str]:
     return await get_prefix(), f"<@!{bot.user.id}> ", f"<@{bot.user.id}> "
 
 
-intents = Intents.default()
-intents.members = True
+intents = Intents.all()
 
 bot = Bot(command_prefix=fetch_prefix, case_insensitive=True, intents=intents)
 bot.remove_command("help")
@@ -268,5 +268,6 @@ register_cogs(
     ModCog,
     RolesCog,
     VoiceChannelCog,
+    InfoCog,
 )
 bot.run(os.environ["TOKEN"])
