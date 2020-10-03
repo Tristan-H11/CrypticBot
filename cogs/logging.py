@@ -6,6 +6,7 @@ from discord import (
     Message,
     Embed,
     RawMessageDeleteEvent,
+    Member,
 )
 from discord.ext import commands, tasks
 from discord.ext.commands import Cog, Bot, guild_only, Context, CommandError, UserInputError
@@ -163,6 +164,12 @@ class LoggingCog(Cog, name="Logging"):
             embed.add_field(name=translations.message_id, value=event.message_id, inline=False)
         await delete_channel.send(embed=embed)
 
+    async def on_member_remove(self, member: Member):
+        if (log_channel := await self.get_logging_channel("memberleave")) is None:
+            return
+
+        await log_channel.send(translations.f_member_left_server(member))
+
     @commands.group(aliases=["log"])
     @Permission.log_manage.check
     @guild_only()
@@ -179,6 +186,7 @@ class LoggingCog(Cog, name="Logging"):
         edit_channel: Optional[TextChannel] = await self.get_logging_channel("edit")
         delete_channel: Optional[TextChannel] = await self.get_logging_channel("delete")
         changelog_channel: Optional[TextChannel] = await self.get_logging_channel("changelog")
+        memberleave_channel: Optional[TextChannel] = await self.get_logging_channel("memberleave")
         maxage: int = await Settings.get(int, "logging_maxage", -1)
 
         embed = Embed(title=translations.logging, color=0x256BE6)
@@ -204,6 +212,11 @@ class LoggingCog(Cog, name="Logging"):
             embed.add_field(name=translations.changelog, value=changelog_channel.mention, inline=False)
         else:
             embed.add_field(name=translations.changelog, value=translations.disabled, inline=False)
+
+        if memberleave_channel is not None:
+            embed.add_field(name=translations.memberleave, value=memberleave_channel.mention, inline=False)
+        else:
+            embed.add_field(name=translations.memberleave, value=translations.disabled, inline=False)
 
         await ctx.send(embed=embed)
 
@@ -333,6 +346,38 @@ class LoggingCog(Cog, name="Logging"):
         await send_to_changelog(ctx.guild, translations.log_changelog_disabled)
         await Settings.set(int, "logging_changelog", -1)
         await ctx.send(translations.log_changelog_disabled)
+
+    @logging.group(name="memberleave", aliases=["ml", "leave"])
+    async def logging_memberleave(self, ctx: Context):
+        """
+        change settings for member leave logging
+        """
+
+        if ctx.invoked_subcommand is None:
+            raise UserInputError
+
+    @logging_memberleave.command(name="channel", aliases=["ch", "c"])
+    async def logging_memberleave_channel(self, ctx: Context, channel: TextChannel):
+        """
+        change member leave channel
+        """
+
+        if not channel.permissions_for(channel.guild.me).send_messages:
+            raise CommandError(translations.log_not_changed_no_permissions)
+
+        await Settings.set(int, "logging_memberleave", channel.id)
+        await ctx.send(translations.f_log_memberleave_updated(channel.mention))
+        await send_to_changelog(ctx.guild, translations.f_log_memberleave_updated(channel.mention))
+
+    @logging_memberleave.command(name="disable", aliases=["d"])
+    async def logging_memberleave_disable(self, ctx: Context):
+        """
+        disable memberleave
+        """
+
+        await Settings.set(int, "logging_memberleave", -1)
+        await ctx.send(translations.log_memberleave_disabled)
+        await send_to_changelog(ctx.guild, translations.log_memberleave_disabled)
 
     @logging.group(name="exclude", aliases=["x", "ignore", "i"])
     async def logging_exclude(self, ctx: Context):
