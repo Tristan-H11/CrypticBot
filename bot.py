@@ -1,4 +1,5 @@
 import os
+import print as print
 import string
 import time
 from typing import Iterable, Optional
@@ -201,6 +202,16 @@ async def version(ctx: Context):
 
     await ctx.send(f"CrypticBot v{VERSION}")
 
+@bot.command(name="marius")
+async def marius(ctx: Context):
+    """
+    show marius questiontext
+    """
+    await ctx.message.delete()
+    await ctx.send(f"Sehr geehrter Fragesteller, diese Frage wird uns sehr oft gestellt. "
+                   f"Bitte schauen Sie in unserem FAQ nach. Dieses finden Sie auf unserer Website. "
+                   f"Sollten Sie weitergehende Fragen haben, stehen wir Ihnen dafür natürlich zur Verfügung. "
+                   f"Vielen Dank für Ihr Interesse an Cryptic")
 
 @bot.command(aliases=["yn"])
 @guild_only()
