@@ -1,5 +1,4 @@
 import os
-import print as print
 import string
 import time
 from typing import Iterable, Optional
