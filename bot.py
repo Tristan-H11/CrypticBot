@@ -202,6 +202,7 @@ async def version(ctx: Context):
     await ctx.send(f"CrypticBot v{VERSION}")
 
 
+@bot.command()
 async def marius(ctx: Context):
     """
     show marius questiontext
