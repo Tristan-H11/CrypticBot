@@ -202,11 +202,11 @@ async def version(ctx: Context):
     await ctx.send(f"CrypticBot v{VERSION}")
 
 
-@bot.command("marius")
 async def marius(ctx: Context):
     """
     show marius questiontext
     """
+
     await ctx.message.delete()
     await ctx.send("Sehr geehrter Fragesteller, diese Frage wird uns sehr oft gestellt. "
                    "Bitte schauen Sie in unserem FAQ nach. Dieses finden Sie auf unserer Website. "
