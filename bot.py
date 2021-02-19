@@ -201,6 +201,7 @@ async def version(ctx: Context):
 
     await ctx.send(f"CrypticBot v{VERSION}")
 
+
 @bot.command("marius")
 async def marius(ctx: Context):
     """
@@ -211,6 +212,7 @@ async def marius(ctx: Context):
                    "Bitte schauen Sie in unserem FAQ nach. Dieses finden Sie auf unserer Website. "
                    "Sollten Sie weitergehende Fragen haben, stehen wir Ihnen dafür natürlich zur Verfügung. "
                    "Vielen Dank für Ihr Interesse an Cryptic")
+
 
 @bot.command(aliases=["yn"])
 @guild_only()
