@@ -203,9 +203,9 @@ async def version(ctx: Context):
 
 
 @bot.command()
-async def marius(ctx: Context, msg: Message):
+async def faq(ctx: Context, msg: Message):
     """
-    show faq marius text
+    show faq text (german)
     """
     await ctx.message.delete()
     msg = await ctx.fetch_message(msg)
