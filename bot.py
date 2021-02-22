@@ -10,7 +10,7 @@ from PyDrocsid.events import listener, register_cogs
 from PyDrocsid.help import send_help
 from PyDrocsid.translations import translations
 from PyDrocsid.util import measure_latency, send_long_embed
-from discord import Message, User, Forbidden, AllowedMentions, Embed, TextChannel, Intents, PartialEmoji
+from discord import Message, User, Forbidden, AllowedMentions, Embed, TextChannel, Intents
 from discord.ext import tasks
 from discord.ext.commands import Bot, Context, guild_only, CommandError, CommandNotFound, UserInputError
 from sentry_sdk.integrations.aiohttp import AioHttpIntegration
