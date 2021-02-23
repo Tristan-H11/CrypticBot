@@ -203,12 +203,11 @@ async def version(ctx: Context):
 
 
 @bot.command()
-async def faq(ctx: Context, msg: int):
+async def faq(ctx: Context, msg: Message):
     """
     show faq text (german)
     """
     await ctx.message.delete()
-    msg = await ctx.fetch_message(msg)
     await msg.reply("Sehr geehrter Fragesteller, diese Frage wird uns sehr oft gestellt. "
                     "Bitte schauen Sie in unserem FAQ nach. Dieses finden Sie auf unserer Website. "
                     "Sollten Sie weitergehende Fragen haben, stehen wir Ihnen dafür natürlich zur Verfügung. "
