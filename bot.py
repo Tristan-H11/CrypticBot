@@ -203,7 +203,7 @@ async def version(ctx: Context):
 
 
 @bot.command()
-async def faq(ctx: Context, msg: Message):
+async def faq(ctx: Context, msg: int):
     """
     show faq text (german)
     """
